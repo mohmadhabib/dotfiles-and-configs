@@ -1,0 +1,166 @@
+### ----------------
+### BASIC ALIASES
+### ----------------
+alias c="clear"
+alias q="exit"
+alias ram="free -h"
+alias hdd="df -h"
+alias temp="sensors"
+alias editb="nano +9999999 ~/.bash_aliases"
+alias reloadb="source ~/.bash_aliases"
+alias editz="nano +9999999 ~/.zshrc"
+alias reloadz="source ~/.zshrc"
+alias edita="nano +9999999 ~/.profile"
+alias reloada="source ~/.profile"
+alias temp="sensors"
+
+### ----------------
+### DIRS/NAV ALIASES
+### ----------------
+alias ..='cd ..'
+alias .2='cd ../..'
+alias ...='cd ../..'
+alias .3='cd ../../..'
+alias ....='cd ../../..'
+alias .4='cd ../../../..'
+alias .....='cd ../../../..'
+alias .5='cd ../../../../..'
+alias ......='cd ../../../../..'
+
+### ----------------
+### USEFUL ALIASES
+### ----------------
+alias weather='curl -4 http://wttr.in'
+
+### ----------------
+### DOCKER ALIASES
+### ----------------
+alias d='docker'
+alias da='docker attach'
+alias di='docker images'
+alias dp='docker ps'
+alias dpa='docker ps -a'
+alias dv='docker volume'
+alias dvl='docker volume ls'
+alias dclearimg='docker rmi $(docker images --quiet --filter "dangling=true")'
+alias dclearps='docker ps --filter status=dead --filter status=exited -aq | xargs docker rm -v'
+alias dclearvol='docker volume rm $(docker volume ls -qf dangling=true)'
+alias dc='docker-compose'
+
+### ----------------
+### GIT ALIASES
+### ----------------
+alias g='git'
+alias ga='git add -A'
+alias gcm='git commit -m'
+alias gco='git checkout'
+alias gl='git log --show-signature'
+alias gm='git merge --no-ff'
+alias gpl='git pull'
+alias gp='git push -u'
+alias gs='git status'
+
+### ----------------
+### Useful functions
+### ----------------
+#~ Show Dir after CD
+cdl()    {
+  cd "$@";
+  ls;
+}
+#~ Online Man Pages
+cheat()  {
+  curl -s "https://cheat.sh/$1"
+}
+#~ Online IP Finder
+getip()  {
+  curl -s "http://l2.io/ip"
+}
+#~ Share Texts Online
+_0x0()  {
+  echo "$1" | curl -F file=@- "https://0x0.st"
+}
+#~ Share Texts Online
+ix()  {
+  echo "$1" | curl -F 'f:1=<-' "https://ix.io"
+}
+#~ Share Texts Online
+termbin()  {
+  echo "$1" | nc termbin.com 9999
+}
+#~ Shorten a Link Online
+shorten()  {
+  curl -s "https://tinyurl.com/api-create.php?url=$1"
+}
+#~ Transfer Files Online
+transf()  {
+  curl --upload-file $1 "https://transfer.sh/$1"
+}
+#~ Generate QRCode Online
+qrcode()  {
+  curl "https://qrenco.de/$1"
+}
+#~ Transfer Files Online
+transf2()  {
+  curl "https://oshi.at -F f=@$1"
+}
+#~ Transfer Files Online
+transf3()  {
+  curl -F file=@$1 "https://0x0.st"
+}
+#~ Get Cryptocurrencies Rates Online
+crypto()  {
+  curl "https://rate.sx"
+}
+#~ Ask AI
+ask()  {
+  curl -s 'https://api-inference.huggingface.co/models/distilgpt2' --data-raw \""$*"\" | jq '.[0].generated_text'
+}
+#~ Domain Whois
+whois()  {
+  curl -s "https://api.hackertarget.com/whois/?q=$1"
+}
+#~ SpeedTEST Online
+speedtest()  {
+  curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -
+}
+#~ Neofetch Online
+nfetch()  {
+  curl -sL https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch | bash
+}
+#~ Delete Branches Except one Or more Branches
+delete_branches_except() {
+    cmd='git branch'
+
+    for i in $*; do
+       cmd=$cmd' | grep -v "'$i'"'
+     done
+
+    cmd=$cmd' | xargs git branch -D'
+    eval $cmd
+}
+
+#~ Extract most know archives with one command
+extract () {
+  if [ -f "$1" ] ; then
+    case "$1" in
+      *.tar.bz2)   tar xjf "$1"     ;;
+      *.tar.gz)    tar xzf "$1"     ;;
+      *.bz2)       bunzip2 "$1"     ;;
+      *.rar)       unrar e "$1"     ;;
+      *.gz)        gunzip "$1"      ;;
+      *.lzma)      unlzma "$1"      ;;
+      *.tar)       tar xf "$1"      ;;
+      *.tbz2)      tar xjf "$1"     ;;
+      *.tgz)       tar xzf "$1"     ;;
+      *.xz)        unxz "$1"        ;;
+      *.zip)       unzip "$1"       ;;
+      *.Z)         uncompress "$1"  ;;
+      *.7z)        7z x "$1"        ;;
+      exe)         cabextract "$1"  ;;
+      *)     echo "'$1' cannot be extracted via extract()" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
